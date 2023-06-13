@@ -11,6 +11,15 @@ builder.Services.AddSwaggerGen();
 ConnectionWS connectionWS = builder.Configuration.GetSection("ConnectionWS").Get<ConnectionWS>();
 builder.Services.AddScoped<IApiConsumer>(options => new ApiConsumerService(builder.Configuration.GetSection("BaseURL").Get<string>()));
 builder.Services.AddScoped<IFactura, FacturaService>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "_myAlllowSpecificOrigins", policy =>
+    {
+        policy.AllowAnyOrigin();
+        policy.AllowAnyMethod();
+        policy.AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -27,10 +36,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseCors(builder => builder
-     .AllowAnyOrigin()
-     .AllowAnyMethod()
-     .AllowAnyHeader()
-     .AllowCredentials());
+app.UseCors("_myAlllowSpecificOrigins");
 
 app.Run();

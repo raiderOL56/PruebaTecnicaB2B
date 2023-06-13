@@ -15,9 +15,8 @@ namespace PruebaTecnicaWS.Services
             {
                 HttpClient client = new HttpClient();
                 HttpRequestMessage request = new HttpRequestMessage(method, string.Concat(_baseURL, endpoint));
-                return await client.SendAsync(request);
 
-                //return await response.Content.ReadAsStringAsync();
+                return await client.SendAsync(request);
             }
             catch (Exception)
             {
@@ -33,6 +32,7 @@ namespace PruebaTecnicaWS.Services
                 HttpRequestMessage request = new HttpRequestMessage(method, string.Concat(_baseURL, endpoint));
                 StringContent content = new StringContent(json, null, mimeType);
                 request.Content = content;
+                
                 return await client.SendAsync(request);
             }
             catch (Exception)
